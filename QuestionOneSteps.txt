@@ -1,0 +1,151 @@
+Setting up a website on localhost using either Apache2 or Nginx and creating a DNS name 
+for it requires a few steps. Below is a detailed guide to help you achieve this:
+
+Note: Before proceeding, make sure you have Apache2 or Nginx installed on your system. 
+Additionally, for the DNS name, you can use your hosts file to map "awesomeweb" to your localhost IP.
+
+Clone or Create Your Website Code:
+
+You can use any web template or create your own HTML code.
+If you have a website code, push it to a Git repository. 
+If you don't, you can use this simple example:
+
+html
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Awesome Web</title>
+</head>
+<body>
+    <h1>Welcome to the Awesome Web</h1>
+</body>
+</html>
+
+Git Repository Setup:
+
+Initialize a Git repository if you haven't already.
+Add your website code to the repository.
+bash
+
+
+git init
+git add .
+git commit -m "Initial commit"
+
+Localhost Setup:
+
+a. Using Apache2:
+
+Install Apache2 if you haven't already.
+
+bash
+
+
+sudo apt-get update
+sudo apt-get install apache2
+
+Create a virtual host configuration file. For this example, let's call it awesomeweb.conf. Use your preferred text editor to create the file:
+
+bash
+
+
+sudo nano /etc/apache2/sites-available/awesomeweb.conf
+
+Inside the configuration file, add the following content:
+
+apache
+
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName awesomeweb
+    DocumentRoot /var/www/awesomeweb
+</VirtualHost>
+
+Create a directory for your website:
+
+bash
+
+
+sudo mkdir /var/www/awesomeweb
+Copy your website code into the directory:
+bash
+Copy code
+sudo cp -r /path/to/your/website /var/www/awesomeweb/
+
+Enable the virtual host and restart Apache:
+
+bash
+
+
+sudo a2ensite awesomeweb.conf
+sudo systemctl restart apache2
+
+b. Using Nginx:
+
+Install Nginx if you haven't already.
+
+bash
+
+sudo apt-get update
+sudo apt-get install nginx
+Create a server block configuration file. For this example, let's call it awesomeweb. Use your preferred text editor to create the file:
+bash
+
+sudo nano /etc/nginx/sites-available/awesomeweb
+
+Inside the configuration file, add the following content:
+
+nginx
+
+
+server {
+    listen 80;
+    server_name awesomeweb;
+    root /var/www/awesomeweb;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+Create a directory for your website:
+
+bash
+
+
+sudo mkdir /var/www/awesomeweb
+
+Copy your website code into the directory:
+bash
+
+
+sudo cp -r /path/to/your/website /var/www/awesomeweb/
+
+Enable the server block and restart Nginx:
+
+bash
+
+sudo ln -s /etc/nginx/sites-available/awesomeweb /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+
+Edit Hosts File (DNS Mapping):
+
+To access your website with the DNS name "awesomeweb," add the following line to your hosts file:
+
+On Linux or macOS, open your hosts file using a text editor:
+
+bash
+Copy code
+sudo nano /etc/hosts
+
+Add the following line to map "awesomeweb" to your localhost:
+text
+Copy code
+127.0.0.1 awesomeweb
+Testing:
+
+Open a web browser and navigate to http://awesomeweb. You should see your website.
+That's it! You've successfully deployed a website on localhost using either Apache2 or Nginx and created a DNS name for it. Your website is now accessible at "awesomeweb."
