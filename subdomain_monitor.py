@@ -2,34 +2,44 @@ import requests
 import time
 from prettytable import PrettyTable
 
-# Define the list of subdomains to monitor
-subdomains = ["subdomain1.example.com", "subdomain2.example.com"]
+# Subdomains list to check the status
+subdomains = [
+    "chat.openai.com",
+    "www.gmail.com",
+    "www.herovired.com",
+    "vlearnv.herovired.com",
+    "subdomain1.example.com"
+]
 
-# Function to check the status of a subdomain
-def check_status(subdomain):
+table = PrettyTable()
+table.field_names = ["Subdomain", "Status"]
+
+def status_check(subdomain):
     try:
-        response = requests.get(f"https://{subdomain}")
+        response = requests.get(f"https://{subdomain}", timeout=10)  # Use HTTPS and add a timeout
         if response.status_code == 200:
             return "Up"
         else:
             return "Down"
-    except requests.exceptions.RequestException:
+    except (requests.ConnectionError, requests.Timeout):
         return "Down"
+    except Exception as e:
+        return f"Error: {e}"
 
-# Function to display the status in tabular format
-def display_status(subdomains_status):
-    table = PrettyTable()
-    table.field_names = ["Subdomain", "Status"]
-    for subdomain, status in subdomains_status.items():
-        table.add_row([subdomain, status])
-    print(table)
-
-# Main loop to periodically check the status
-while True:
-    subdomains_status = {}
+def store_data_in_table():
+    table.clear_rows()
     for subdomain in subdomains:
-        status = check_status(subdomain)
-        subdomains_status[subdomain] = status
+        status = status_check(subdomain)
+        table.add_row([subdomain, status])
 
-    display_status(subdomains_status)
-    time.sleep(60)  # Wait for 60 seconds (1 minute) before checking again
+def main():
+    try:
+        while True:
+            store_data_in_table()
+            print(table)
+            time.sleep(60)  # Check every minute (adjust as needed)
+    except KeyboardInterrupt:
+        print("Status check interrupted by the user.")
+
+if __name__ == "__main__":
+    main()
