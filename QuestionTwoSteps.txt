@@ -1,0 +1,81 @@
+Creating a Python script to monitor the status of subdomains and display the information in a tabular format requires a few key components:
+
+A list of subdomains to monitor.
+A method to check the status of each subdomain.
+A way to update the status information in a tabular format.
+A loop to periodically check the status (e.g., every minute).
+Here's a sample script to accomplish this task. You'll need to install the requests 
+library if it's not already installed using pip install requests. This script will periodically check the status of subdomains and display the results in a table format using the prettytable library. Before running the script, make sure to replace the example subdomains with your own.
+
+python
+Copy code
+import requests
+import time
+from prettytable import PrettyTable
+
+# Define the list of subdomains to monitor
+subdomains = ["subdomain1.example.com", "subdomain2.example.com"]
+
+# Function to check the status of a subdomain
+def check_status(subdomain):
+    try:
+        response = requests.get(f"https://{subdomain}")
+        if response.status_code == 200:
+            return "Up"
+        else:
+            return "Down"
+    except requests.exceptions.RequestException:
+        return "Down"
+
+# Function to display the status in tabular format
+def display_status(subdomains_status):
+    table = PrettyTable()
+    table.field_names = ["Subdomain", "Status"]
+    for subdomain, status in subdomains_status.items():
+        table.add_row([subdomain, status])
+    print(table)
+
+# Main loop to periodically check the status
+while True:
+    subdomains_status = {}
+    for subdomain in subdomains:
+        status = check_status(subdomain)
+        subdomains_status[subdomain] = status
+
+    display_status(subdomains_status)
+    time.sleep(60)  # Wait for 60 seconds (1 minute) before checking again
+
+To document your code and push it to Git, follow these steps:
+
+Create a Git repository for your project, and make sure you have Git installed on your system.
+
+Add the code to a Python file (e.g., subdomain_monitor.py) and add a README file (e.g., README.md) to describe your project and provide usage instructions.
+
+Initialize the Git repository in your project folder:
+
+csharp
+Copy code
+git init
+Add your Python script and README to the repository:
+
+csharp
+Copy code
+git add subdomain_monitor.py README.md
+Commit the changes:
+
+sql
+Copy code
+git commit -m "Initial commit"
+Create a remote repository on a Git hosting service like GitHub, GitLab, or Bitbucket.
+
+Link your local repository to the remote repository and push your code:
+
+csharp
+Copy code
+git remote add origin <repository_url>
+git push -u origin master
+Replace <repository_url> with the URL of your remote repository.
+
+Now, your code is documented and available on Git for others to access and collaborate. 
+Update the README with information on how to run the script and any other relevant details 
+about your project.
