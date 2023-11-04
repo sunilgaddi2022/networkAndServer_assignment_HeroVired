@@ -1,0 +1,65 @@
+Step 1: Install Oracle VirtualBox
+
+Follow the steps you mentioned in your initial guide to install VirtualBox on your Windows computer.
+Step 2: Download and set up Ubuntu 22.04 in VirtualBox
+
+Download an Ubuntu 22.04 ISO image from a trusted source, such as the official Ubuntu website.
+Create a new virtual machine in VirtualBox and set up the Ubuntu VM using the downloaded ISO image.
+Follow the installation wizard to install Ubuntu within the VM.
+
+Step 3: Install Nginx on the Ubuntu Virtual Machine
+
+Once Ubuntu is installed, open a terminal inside the VM.
+Update the package list by running the following command:
+sql
+Copy code
+sudo apt update
+Install Nginx using the following command:
+Copy code
+sudo apt install nginx
+Start the Nginx service:
+sql
+Copy code
+sudo systemctl start nginx
+Enable Nginx to start on boot:
+bash
+Copy code
+sudo systemctl enable nginx
+
+Step 4: Host a website on the Ubuntu Virtual Machine
+
+Place your website files (HTML, CSS, etc.) in the appropriate directory, 
+typically /var/www/html/ for the default Nginx configuration.
+
+Step 5: Configure Port Forwarding (if necessary)
+
+If you want to access the Nginx web server from your host machine, 
+configure port forwarding in the VirtualBox settings for your VM. 
+Forward host port to guest port 80 (HTTP).
+
+Step 6: Scan the Virtual Machine using Nmap
+
+Return to your host machine (Windows, Linux, or macOS).
+
+Step 7: Install and Use Nmap
+
+If you haven't already, download and install Nmap on your host machine from the 
+official website: https://nmap.org/download.html
+
+
+Step 8: Perform a Network Scan
+
+
+Open a command prompt or terminal on your host machine and use the nmap command to scan 
+your Ubuntu VM's IP address. Replace [VM_IP] with the actual IP address of your virtual machine.
+For example, to scan the VM with IP 192.168.1.100:
+
+css
+Copy code
+nmap [VM_IP]
+
+Step 9: Document the Results
+
+Document the output of the Nmap scan. This will show you which ports are open on your Ubuntu VM.
+Keep in mind that your network setup and firewall configurations can affect the results of the Nmap scan. 
+The open ports will depend on how you configured your virtual machine and Nginx server.
